@@ -1,11 +1,13 @@
 package com.commerceplatform.api.accounts.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
+@Builder
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
