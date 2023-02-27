@@ -17,15 +17,8 @@ import java.util.Objects;
 
 @Component
 public class TokenFilter extends OncePerRequestFilter {
-
-    private final TokenService tokenService;
-    private final UserRepository userRepository;
-
-    public TokenFilter(TokenService tokenService, UserRepository userRepository) {
-        this.tokenService = tokenService;
-        this.userRepository = userRepository;
-
-    }
+    private TokenService tokenService;
+    private UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

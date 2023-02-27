@@ -1,12 +1,11 @@
 package com.commerceplatform.api.accounts.configurations;
 
+import com.commerceplatform.api.accounts.configurations.filters.TokenFilter;
 import com.commerceplatform.api.accounts.models.UserModel;
 import com.commerceplatform.api.accounts.repositories.UserRepository;
-import com.commerceplatform.api.accounts.services.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,21 +15,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationConverter;
-import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    private final UserRepository userRepository;
-    private final TokenService tokenService;
-
-    public SecurityConfig(UserRepository userRepository, TokenService tokenService) {
-        this.userRepository = userRepository;
-        this.tokenService = tokenService;
-    }
-
+    private UserRepository userRepository;
+    private TokenFilter tokenFilter;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -54,7 +45,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new AuthenticationFilter((AuthenticationManager) tokenService, (AuthenticationConverter) userRepository), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
