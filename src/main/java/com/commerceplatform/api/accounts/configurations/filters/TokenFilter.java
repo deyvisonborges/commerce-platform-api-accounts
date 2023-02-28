@@ -7,7 +7,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,15 +32,11 @@ public class TokenFilter extends OncePerRequestFilter {
         if(Boolean.TRUE.equals(tokenService.isValid(token))) {
             authenticateByToken(token);
         }
-        System.out.println("token invalido");
-
         filterChain.doFilter(request, response);
     }
     private void authenticateByToken(String token) {
         Long subject = tokenService.getUserId(token);
-        System.out.println(subject + "subjectt");
         var userOpt = userRepository.findById(subject);
-        System.out.println(userOpt + "user opt");
         if (userOpt.isEmpty()) {
             throw new TokenException("user not found");
         }

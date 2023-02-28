@@ -1,7 +1,6 @@
 package com.commerceplatform.api.accounts.services;
 
 import com.commerceplatform.api.accounts.dtos.LoginDTO;
-import com.commerceplatform.api.accounts.dtos.TokenDTO;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,11 +22,16 @@ public class AuthenticationService implements AuthenticationServiceRules {
     }
 
     public String login(LoginDTO loginDTO) {
-        var requestedUser = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.password());
-        Authentication auth = authenticationManager.authenticate(requestedUser);
-        String token = tokenService.generateToken(auth);
+        try {
+            var requestedUser = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.password());
+            Authentication auth = authenticationManager.authenticate(requestedUser);
+            System.out.println(auth);
 
-        return new TokenDTO(token, "Bearer").token();
+            String token = tokenService.generateToken(auth);
+            return token;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
 

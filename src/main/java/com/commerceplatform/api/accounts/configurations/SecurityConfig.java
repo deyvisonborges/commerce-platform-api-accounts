@@ -31,11 +31,12 @@ public class SecurityConfig {
     }
     @Bean
     public UserDetailsService userDetailsService() {
-        return email -> {
+        UserDetailsService userDetailsService = email -> {
             UserModel userModel = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new UsernameNotFoundException("No user found with email address "+email));
-            return new User(userModel.getUsername(), userModel.getPassword(), true, true, true, true, userModel.getAuthorities());
+                    .orElseThrow(() -> new UsernameNotFoundException("No user found with email address " + email));
+            return new User(userModel.getEmail(), userModel.getPassword(), true, true, true, true, userModel.getAuthorities());
         };
+        return userDetailsService;
     }
 
     @Bean
