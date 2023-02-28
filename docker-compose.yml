@@ -10,7 +10,7 @@ services:
       MYSQL_USER: develop
       MYSQL_PASSWORD: 12345
     ports:
-      - "3306:3308"
+      - "3308:3306"
     volumes:
       - mysql_data_container:/data/db
 volumes:

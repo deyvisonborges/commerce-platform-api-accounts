@@ -1,6 +1,7 @@
 package com.commerceplatform.api.accounts.services;
 
 import com.commerceplatform.api.accounts.models.UserModel;
+import com.commerceplatform.api.accounts.services.rules.TokenServiceRules;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,10 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class TokenService {
+public class TokenService implements TokenServiceRules {
     private String expiration;
     private String secret;
 
+    @Override
     public String generateToken(Authentication auth) {
         UserModel user = (UserModel) auth.getPrincipal();
         Date createdDate = new Date();
@@ -28,6 +30,7 @@ public class TokenService {
                 .compact();
     }
 
+    @Override
     public Boolean isValid(String token) {
         try {
             getClaimsJws(token);
@@ -37,7 +40,8 @@ public class TokenService {
         }
     }
 
-    public Long  getUserId(String token) {
+    @Override
+    public Long getUserId(String token) {
         try {
             Jws<String> claims = getClaimsJws(token);
             return Long.parseLong(claims.getBody());
