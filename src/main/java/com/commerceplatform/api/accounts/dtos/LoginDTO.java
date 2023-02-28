@@ -1,5 +1,13 @@
 package com.commerceplatform.api.accounts.dtos;
 
-public record LoginDTO (String email, String password) {
+import javax.validation.constraints.NotBlank;
+
+public record LoginDTO (
+        @NotBlank(message = "atributo obrigatório")
+        String email,
+
+        @NotBlank(message = "atributo obrigatório")
+        String password
+) {
 
 }
