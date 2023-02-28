@@ -2,7 +2,7 @@ package com.commerceplatform.api.accounts.configurations.filters;
 
 import com.commerceplatform.api.accounts.exceptions.TokenException;
 import com.commerceplatform.api.accounts.repositories.UserRepository;
-import com.commerceplatform.api.accounts.services.TokenService;
+import com.commerceplatform.api.accounts.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,11 +17,11 @@ import java.util.Objects;
 
 @Configuration
 public class TokenFilter extends OncePerRequestFilter {
-    private final TokenService tokenService;
+    private final JwtService jwtService;
     private final UserRepository userRepository;
 
-    public TokenFilter(TokenService tokenService, UserRepository userRepository) {
-        this.tokenService = tokenService;
+    public TokenFilter(JwtService jwtService, UserRepository userRepository) {
+        this.jwtService = jwtService;
         this.userRepository = userRepository;
     }
 
@@ -29,13 +29,13 @@ public class TokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getBearerToken(request);
 
-        if(Boolean.TRUE.equals(tokenService.isValid(token))) {
+        if(Boolean.TRUE.equals(jwtService.isValid(token))) {
             authenticateByToken(token);
         }
         filterChain.doFilter(request, response);
     }
     private void authenticateByToken(String token) {
-        Long subject = tokenService.getUserId(token);
+        Long subject = jwtService.getUserId(token);
         var userOpt = userRepository.findById(subject);
         if (userOpt.isEmpty()) {
             throw new TokenException("user not found");
@@ -46,7 +46,7 @@ public class TokenFilter extends OncePerRequestFilter {
     }
 
     private String getBearerToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
+        final String authorizationHeader = request.getHeader("Authorization");
 
         if (Objects.isNull(authorizationHeader) || !authorizationHeader.startsWith("Bearer")) {
             return null;

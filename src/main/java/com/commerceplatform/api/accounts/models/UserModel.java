@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Builder
-public class UserModel implements UserDetails, Serializable {
+public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

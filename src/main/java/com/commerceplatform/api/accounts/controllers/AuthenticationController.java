@@ -1,6 +1,7 @@
 package com.commerceplatform.api.accounts.controllers;
 
 import com.commerceplatform.api.accounts.dtos.LoginDTO;
+import com.commerceplatform.api.accounts.dtos.TokenDTO;
 import com.commerceplatform.api.accounts.services.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid LoginDTO loginDTO) {
+    public ResponseEntity<TokenDTO> login(@RequestBody @Valid LoginDTO loginDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.login(loginDTO));
     }
 }

@@ -1,7 +1,7 @@
 package com.commerceplatform.api.accounts.services;
 
 import com.commerceplatform.api.accounts.models.UserModel;
-import com.commerceplatform.api.accounts.services.rules.TokenServiceRules;
+import com.commerceplatform.api.accounts.services.rules.JwtServiceRules;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class TokenService implements TokenServiceRules {
+public class JwtService implements JwtServiceRules {
     @Value("${security.jwt.expiration}")
     private String expiration;
 

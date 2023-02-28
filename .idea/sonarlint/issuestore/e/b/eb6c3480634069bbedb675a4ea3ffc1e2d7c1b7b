@@ -1,0 +1,11 @@
+
+B
+java:S1874",Remove this use of "Date"; it is deprecated.(¢öÌÿ
+K
+java:S1874!"0Remove this use of "signWith"; it is deprecated.(Áå‹İşÿÿÿÿ
+m
+java:S27375"WAdd logic to this catch clause or eliminate it and rethrow the exception automatically.(ö™û
+I
+java:S1874:".Remove this use of "parser"; it is deprecated.(®ÿÁ•øÿÿÿÿ
+P
+java:S1874:"5Remove this use of "setSigningKey"; it is deprecated.(®ÿÁ•øÿÿÿÿ
