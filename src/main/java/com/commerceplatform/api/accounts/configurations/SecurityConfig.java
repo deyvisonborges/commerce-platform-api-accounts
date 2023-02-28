@@ -20,8 +20,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    private UserRepository userRepository;
-    private TokenFilter tokenFilter;
+    private final UserRepository userRepository;
+    private final TokenFilter tokenFilter;
+
+    public SecurityConfig(UserRepository userRepository, TokenFilter tokenFilter) {
+        this.userRepository = userRepository;
+        this.tokenFilter = tokenFilter;
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {

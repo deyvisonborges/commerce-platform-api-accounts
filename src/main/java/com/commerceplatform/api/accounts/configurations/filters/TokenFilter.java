@@ -1,6 +1,6 @@
 package com.commerceplatform.api.accounts.configurations.filters;
 
-import com.commerceplatform.api.accounts.models.UserModel;
+import com.commerceplatform.api.accounts.exceptions.TokenException;
 import com.commerceplatform.api.accounts.repositories.UserRepository;
 import com.commerceplatform.api.accounts.services.TokenService;
 import jakarta.servlet.FilterChain;
@@ -17,37 +17,41 @@ import java.util.Objects;
 
 @Component
 public class TokenFilter extends OncePerRequestFilter {
-    private TokenService tokenService;
-    private UserRepository userRepository;
+    private final TokenService tokenService;
+    private final UserRepository userRepository;
+
+    public TokenFilter(TokenService tokenService, UserRepository userRepository) {
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getBearerToken(request);
 
-        if(tokenService.isValid(token)) {
+        if(Boolean.TRUE.equals(tokenService.isValid(token))) {
             authenticateByToken(token);
         }
 
         filterChain.doFilter(request, response);
     }
-
     private void authenticateByToken(String token) {
-        Long userId = tokenService.getUserId(token);
-        var userOpt = userRepository.findById(userId);
+        Long subject = tokenService.getUserId(token);
+        var userOpt = userRepository.findById(subject);
         if (userOpt.isEmpty()) {
-            throw new RuntimeException("Usuário não encontrado");
+            throw new TokenException("user not found");
         }
-        UserModel userModel = userOpt.get();
-        var authentication = new UsernamePasswordAuthenticationToken(userModel, null, userModel.getAuthorities());
+        var user = userOpt.get();
+        var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private String getBearerToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader("Authorization");
 
-        if (Objects.isNull(token) || !token.startsWith("Bearer")) {
+        if (Objects.isNull(authorizationHeader) || !authorizationHeader.startsWith("Bearer")) {
             return null;
         }
-        return token.substring(7);
+        return authorizationHeader.substring(7);
     }
 }
