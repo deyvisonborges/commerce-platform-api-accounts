@@ -1,6 +1,9 @@
 package com.commerceplatform.api.accounts.configurations;
 
+import com.commerceplatform.api.accounts.repositories.UserRepository;
 import com.commerceplatform.api.accounts.security.CustomUserDetailsService;
+import com.commerceplatform.api.accounts.security.JwtService;
+import com.commerceplatform.api.accounts.security.filters.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,15 +16,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
 public class Configurations {
     private final CustomUserDetailsService customUserDetailsService;
+    private final JwtService jwtService;
+    private final UserRepository userRepository;
 
-    public Configurations(CustomUserDetailsService customUserDetailsService) {
+    public Configurations(CustomUserDetailsService customUserDetailsService, JwtService jwtService, UserRepository userRepository) {
         this.customUserDetailsService = customUserDetailsService;
+        this.jwtService = jwtService;
+        this.userRepository = userRepository;
     }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -49,9 +58,14 @@ public class Configurations {
             .requestMatchers(HttpMethod.POST, "/user").permitAll()
             .anyRequest().authenticated().and()
             .csrf().disable()
+            .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
 
+    @Bean
+    public JwtFilter jwtFilter() {
+        return new JwtFilter(jwtService, userRepository);
+    }
 
 }

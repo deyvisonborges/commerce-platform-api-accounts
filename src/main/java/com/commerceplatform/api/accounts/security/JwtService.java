@@ -15,10 +15,12 @@ public class JwtService {
     @Value("${security.jwt.secret}")
     private String secret;
 
+    private final String issuer = "Commerce Platform Accounts";
+
     public String generateToken(Authentication authentication, Long userId) {
         try {
             return JWT.create()
-                .withIssuer("Commerce Platform Accounts")
+                .withIssuer(this.issuer)
                 .withSubject(authentication.getName())
                 .withClaim("id", userId)
                 .withExpiresAt(
@@ -30,6 +32,18 @@ public class JwtService {
                 .sign(Algorithm.HMAC256(secret));
         } catch (Exception e) {
             throw new BadRequestException("Token error: "+e.getMessage());
+        }
+    }
+
+    public String getSubject(String token) {
+        try {
+            return JWT.require(Algorithm.HMAC256(secret))
+                .withIssuer(this.issuer)
+                .build()
+                .verify(token)
+                .getSubject();
+        } catch (Exception e) {
+            throw new BadRequestException("Failed to get subject: "+e.getMessage());
         }
     }
 }
