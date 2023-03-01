@@ -28,16 +28,16 @@ public class ResourceHandler {
                 .build());
     }
 
-//    @ExceptionHandler(BadRequestException.class)
-//    public ResponseEntity<ErrorResponseDto> badRequestException(BadRequestException b) {
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto
-//                .builder()
-//                .message(b.getMessage())
-//                .httpStatus(HttpStatus.BAD_REQUEST)
-//                .statusCode(HttpStatus.BAD_REQUEST.value())
-//                .build()
-//        );
-//    }
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponseDto> badRequestException(BadRequestException b) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto
+                .builder()
+                .message(b.getMessage())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .build()
+        );
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDto> methodArgumentNotValidException(MethodArgumentNotValidException m) {
         Map<String, String> messages = new HashMap<>();

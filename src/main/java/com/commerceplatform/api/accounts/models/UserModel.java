@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +60,7 @@ public class UserModel implements UserDetails {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = this.email;
     }
 
     public String getPassword() {
