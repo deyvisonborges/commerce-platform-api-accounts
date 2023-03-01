@@ -3,7 +3,6 @@ package com.commerceplatform.api.accounts.services;
 import com.commerceplatform.api.accounts.dtos.LoginDTO;
 import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.exceptions.NotFoundException;
-import com.commerceplatform.api.accounts.models.UserModel;
 import com.commerceplatform.api.accounts.repositories.UserRepository;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;
 import com.commerceplatform.api.accounts.utils.Validators;
@@ -11,8 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import com.commerceplatform.api.accounts.security.JwtService;
-
-import java.util.Optional;
 
 @Service
 public class AuthenticationService implements AuthenticationServiceRules {
@@ -29,17 +26,18 @@ public class AuthenticationService implements AuthenticationServiceRules {
 
     public String login(LoginDTO request) {
         if (!Validators.isValidEmail(request.email())) {
-            throw new BadRequestException("Param validations: attribute email is not valid");
+            throw new BadRequestException("Attribute 'email' is not valid");
         }
 
-        var requestedCredentials = new UsernamePasswordAuthenticationToken(request.email(), request.password());
-        var auth = authenticationManager.authenticate(requestedCredentials);
+        var auth = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                request.email(),
+                request.password()
+            )
+        );
 
-        Optional<UserModel> userOpt = userRepository.findByEmail(request.email());
-        if (userOpt.isEmpty()) {
-            throw new NotFoundException("user with email not found");
-        }
-        var user = userOpt.get();
+        var user = userRepository.findByEmail(request.email())
+            .orElseThrow(() -> new NotFoundException("User with email not found"));
 
         return jwtService.generateToken(auth, user.getId());
     }
