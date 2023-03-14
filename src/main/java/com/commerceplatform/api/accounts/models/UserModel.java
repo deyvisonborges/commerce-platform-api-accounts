@@ -27,6 +27,10 @@ public class UserModel implements UserDetails {
     @Column(name = "updated_at")
     private LocalDate updatedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private UserTypeModel userTypeModel;
+
     public UserModel() {
     }
 

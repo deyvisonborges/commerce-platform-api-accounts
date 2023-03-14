@@ -18,4 +18,5 @@ public class UserDTO {
     private String password;
     private LocalDate createdAt = LocalDate.now();
     private LocalDate updatedAt;
+    private Long userTypeId;
 }
