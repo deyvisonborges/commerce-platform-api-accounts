@@ -11,12 +11,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Builder
 public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long id;
     private String email;
     private String username;
@@ -34,13 +34,14 @@ public class UserModel implements UserDetails {
     public UserModel() {
     }
 
-    public UserModel(Long id, String email, String username, String password, LocalDate createdAt, LocalDate updatedAt) {
+    public UserModel(Long id, String email, String username, String password, LocalDate createdAt, LocalDate updatedAt, UserTypeModel userTypeModel) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.userTypeModel = userTypeModel;
     }
 
     public Long getId() {
@@ -59,14 +60,16 @@ public class UserModel implements UserDetails {
         this.email = email;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
-        this.username = this.email;
+        this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -89,6 +92,14 @@ public class UserModel implements UserDetails {
 
     public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public UserTypeModel getUserTypeModel() {
+        return userTypeModel;
+    }
+
+    public void setUserTypeModel(UserTypeModel userTypeModel) {
+        this.userTypeModel = userTypeModel;
     }
 
     @Override

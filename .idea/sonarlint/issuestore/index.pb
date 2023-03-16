@@ -3,8 +3,6 @@ B
 docker-compose.yml,3/5/35b8c13cf2eb2a194eada000eb310d65aed53b2a
 ƒ
 Ssrc/main/java/com/commerceplatform/api/accounts/exceptions/BadRequestException.java,d/7/d75875d636a833725fded421ae89fd08809fa508
-x
-Hsrc/main/java/com/commerceplatform/api/accounts/AccountsApplication.java,4/1/41ce0ce5ff3896f040ec62fa190af2f620672dc8
 z
 Jsrc/main/java/com/commerceplatform/api/accounts/dtos/ErrorResponseDto.java,9/5/9502fed41d1c7a6a5d5212cc5ed5c1569935f8df
 …
@@ -17,18 +15,10 @@ Ssrc/main/java/com/commerceplatform/api/accounts/services/rules/JwtServiceRules.
 Psrc/main/java/com/commerceplatform/api/accounts/repositories/UserRepository.java,b/9/b9be54cd768fcfc8b0681a577c466edf4de6d16f
 u
 Esrc/main/java/com/commerceplatform/api/accounts/utils/Validators.java,2/4/243d8e2616002f0075076f78d5f36ad1887e1b38
-
-Osrc/main/java/com/commerceplatform/api/accounts/controllers/UserController.java,b/f/bff8befbf3d861c9945c670e09ee9c62ba20966a
-ƒ
-Ssrc/main/java/com/commerceplatform/api/accounts/services/AuthenticationService.java,5/f/5f50d122c5209e0fbc844995a8af518e01e2a5b4
-7
-pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 r
 Bsrc/main/java/com/commerceplatform/api/accounts/dtos/LoginDTO.java,2/6/2698f874a4bbe4eacad224a4b23e30fd8ca3012c
 ‰
 Ysrc/main/java/com/commerceplatform/api/accounts/controllers/AuthenticationController.java,1/6/1669fa71142f17ed7e539b1f6d5c601f52b750ff
-‚
-Rsrc/main/java/com/commerceplatform/api/accounts/configurations/Configurations.java,a/9/a99029b4e434fcceeb2c263b861df348821e04dd
 r
 Bsrc/main/java/com/commerceplatform/api/accounts/dtos/TokenDTO.java,f/f/ff7fa82a534719280045b1b764a277cbad7a1d1b
 s

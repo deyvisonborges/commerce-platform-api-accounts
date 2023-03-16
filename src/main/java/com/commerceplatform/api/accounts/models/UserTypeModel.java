@@ -6,11 +6,11 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "user_type")
 public class UserTypeModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(name = "user_type_id", nullable = false)
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -18,6 +18,7 @@ public class UserTypeModel implements Serializable {
     private UserTypeEnum type;
 
     private String description;
+
 
     public UserTypeModel() {
     }
