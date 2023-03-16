@@ -1,8 +1,6 @@
 package com.commerceplatform.api.accounts.enums;
 
 public enum RoleEnum {
-    CREATE,
-    UPDATE,
-    DELETE,
-    READ
+    ROLE_ADMIN,
+    ROLE_USER
 }

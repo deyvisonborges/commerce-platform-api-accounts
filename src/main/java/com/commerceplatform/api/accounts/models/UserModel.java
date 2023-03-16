@@ -31,10 +31,19 @@ public class UserModel implements UserDetails {
     @JoinColumn(name = "id")
     private UserTypeModel userTypeModel;
 
+    @ManyToMany
+    @JoinTable(
+        name = "users_roles",
+        uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id" }),
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<RoleModel> roles;
+
     public UserModel() {
     }
 
-    public UserModel(Long id, String email, String username, String password, LocalDate createdAt, LocalDate updatedAt, UserTypeModel userTypeModel) {
+    public UserModel(Long id, String email, String username, String password, LocalDate createdAt, LocalDate updatedAt, UserTypeModel userTypeModel, List<RoleModel> roles) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -42,6 +51,7 @@ public class UserModel implements UserDetails {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.userTypeModel = userTypeModel;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -104,7 +114,7 @@ public class UserModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return this.roles;
     }
 
     @Override
