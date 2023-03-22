@@ -15,11 +15,7 @@ r
 Bsrc/main/java/com/commerceplatform/api/accounts/dtos/TokenDTO.java,f/f/ff7fa82a534719280045b1b764a277cbad7a1d1b
 x
 Hsrc/main/java/com/commerceplatform/api/accounts/AccountsApplication.java,4/1/41ce0ce5ff3896f040ec62fa190af2f620672dc8
-7
-pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 †
 Vsrc/main/java/com/commerceplatform/api/accounts/security/CustomUserDetailsService.java,e/1/e13b85d0356b5e52b19d48a3ededb6eaaf1dc294
 „
 Tsrc/main/java/com/commerceplatform/api/accounts/services/rules/UserServiceRules.java,a/9/a95164acfbc885e896c501cf71b69a447aeda8b2
-‰
-Ysrc/main/java/com/commerceplatform/api/accounts/controllers/AuthenticationController.java,1/6/1669fa71142f17ed7e539b1f6d5c601f52b750ff
