@@ -15,7 +15,7 @@ public class UserMapper {
             .email(userDTO.getEmail())
             .createdAt(userDTO.getCreatedAt())
             .updatedAt(userDTO.getUpdatedAt())
-            .userTypeModel(userTypeModel)
+            .userType(userTypeModel)
             .build();
     }
 }

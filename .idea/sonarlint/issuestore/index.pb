@@ -1,6 +1,4 @@
 
-B
-docker-compose.yml,3/5/35b8c13cf2eb2a194eada000eb310d65aed53b2a
 ƒ
 Ssrc/main/java/com/commerceplatform/api/accounts/exceptions/BadRequestException.java,d/7/d75875d636a833725fded421ae89fd08809fa508
 z
@@ -13,8 +11,6 @@ r
 Bsrc/main/java/com/commerceplatform/api/accounts/dtos/LoginDTO.java,2/6/2698f874a4bbe4eacad224a4b23e30fd8ca3012c
 r
 Bsrc/main/java/com/commerceplatform/api/accounts/dtos/TokenDTO.java,f/f/ff7fa82a534719280045b1b764a277cbad7a1d1b
-x
-Hsrc/main/java/com/commerceplatform/api/accounts/AccountsApplication.java,4/1/41ce0ce5ff3896f040ec62fa190af2f620672dc8
 †
 Vsrc/main/java/com/commerceplatform/api/accounts/security/CustomUserDetailsService.java,e/1/e13b85d0356b5e52b19d48a3ededb6eaaf1dc294
 „
