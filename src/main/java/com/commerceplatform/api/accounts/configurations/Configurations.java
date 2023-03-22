@@ -55,6 +55,7 @@ public class Configurations {
         http.httpBasic().and().authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/user").permitAll()
+            .requestMatchers(HttpMethod.GET, "/user-type").permitAll()
             .anyRequest().authenticated().and()
             .csrf().disable()
             .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)

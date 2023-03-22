@@ -8,6 +8,7 @@ import com.commerceplatform.api.accounts.models.UserModel;
 import com.commerceplatform.api.accounts.repositories.UserRepository;
 import com.commerceplatform.api.accounts.repositories.UserTypeRepository;
 import com.commerceplatform.api.accounts.services.rules.UserServiceRules;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,8 @@ public class UserService implements UserServiceRules {
     }
 
     @Override
+    @CacheEvict(value = "user", allEntries = true)
+    // limpa todos os caches dessa referência, no nosso caso, o user
     public UserModel create(UserDTO request) {
         try {
             if(Objects.nonNull(request.getId())) {
