@@ -7,18 +7,17 @@ import com.commerceplatform.api.accounts.exceptions.NotFoundException;
 import com.commerceplatform.api.accounts.models.UserModel;
 import com.commerceplatform.api.accounts.repositories.UserRepository;
 import com.commerceplatform.api.accounts.repositories.UserTypeRepository;
+import com.commerceplatform.api.accounts.services.rules.UserServiceRules;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
 @Service
-public class UserService {
+public class UserService implements UserServiceRules {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final UserTypeRepository userTypeRepository;
-
 
     public UserService(
             PasswordEncoder passwordEncoder,
@@ -30,25 +29,27 @@ public class UserService {
         this.userTypeRepository = userTypeRepository;
     }
 
-    @Transactional
-    public UserModel createUser(UserDTO userDto) {
+    @Override
+    public UserModel create(UserDTO request) {
         try {
-            if(Objects.isNull(userDto.getId())) {
-                throw new BadRequestException("Id must be null");
+            if(Objects.nonNull(request.getId())) {
+                throw new BadRequestException("Id most be null");
             }
 
-            var userTypeOpt = userTypeRepository.findById(userDto.getUserTypeId());
+            var userTypeOpt = userTypeRepository.findById(request.getUserTypeId());
 
-            if(userTypeOpt.isEmpty()) {
-                throw new NotFoundException("user_type_id não encontrado");
+            if (userTypeOpt.isEmpty()) {
+                throw new NotFoundException("userTypId not found");
             }
 
-            var existsEmail = userRepository.findByEmail(userDto.getEmail());
+            var existsEmail = userRepository.findByEmail(request.getEmail());
             if (existsEmail.isPresent())
                 throw new BadRequestException("Email already registered");
 
-            var newUser = UserMapper.mapper(userDto, userTypeOpt.get());
-             newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            var userType = userTypeOpt.get();
+            var newUser = UserMapper.mapper(request, userType);
+            newUser.setPassword(passwordEncoder.encode(request.getPassword()));
+
             return userRepository.save(newUser);
         } catch (Exception e) {
             throw new BadRequestException("Failed to create user: "+e.getMessage());

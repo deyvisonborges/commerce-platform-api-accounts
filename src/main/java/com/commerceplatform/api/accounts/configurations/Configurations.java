@@ -31,7 +31,6 @@ public class Configurations {
         this.userRepository = userRepository;
     }
 
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

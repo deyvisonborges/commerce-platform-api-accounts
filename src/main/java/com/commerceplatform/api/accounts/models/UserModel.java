@@ -3,7 +3,6 @@ package com.commerceplatform.api.accounts.models;
 import jakarta.persistence.*;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
@@ -29,7 +28,7 @@ public class UserModel implements UserDetails {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private UserTypeModel userTypeModel;
+    private UserTypeModel userType;
 
     @ManyToMany
     @JoinTable(
@@ -50,7 +49,7 @@ public class UserModel implements UserDetails {
         this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.userTypeModel = userTypeModel;
+        this.userType = userTypeModel;
         this.roles = roles;
     }
 
@@ -105,11 +104,11 @@ public class UserModel implements UserDetails {
     }
 
     public UserTypeModel getUserTypeModel() {
-        return userTypeModel;
+        return userType;
     }
 
     public void setUserTypeModel(UserTypeModel userTypeModel) {
-        this.userTypeModel = userTypeModel;
+        this.userType = userTypeModel;
     }
 
     @Override

@@ -11,7 +11,6 @@ public class UserMapper {
 
     public static UserModel mapper(UserDTO userDTO, UserTypeModel userTypeModel) {
         return UserModel.builder()
-            .id(userDTO.getId())
             .username(userDTO.getUsername())
             .email(userDTO.getEmail())
             .createdAt(userDTO.getCreatedAt())
