@@ -5,6 +5,7 @@ import com.commerceplatform.api.accounts.models.redis.RecoveryPasswordModel;
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.repositories.redis.RecoveryPasswordRepository;
 import com.commerceplatform.api.accounts.services.rules.RecoveryPasswordRules;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,10 @@ import java.util.Random;
 
 @Service
 public class RecoveryPasswordService implements RecoveryPasswordRules {
+    @Value("${redis.recoverypassword.timeout}")
+    private String recoveryPasswordTimeout;
+
+
     private final RecoveryPasswordRepository recoveryPasswordRepository;
     private final UserRepository userRepository;
 
@@ -55,8 +60,9 @@ public class RecoveryPasswordService implements RecoveryPasswordRules {
 
         var userRecoveryCode = userRecoveryCodeOpt.get();
 
-        if (code.equals(userRecoveryCode.getCode())) return true;
+        LocalDateTime timeout =  userRecoveryCode.getCreatedAt().plusMinutes(Long.parseLong(recoveryPasswordTimeout));
+        LocalDateTime now = LocalDateTime.now();
 
-        return false;
+        return code.equals(userRecoveryCode.getCode()) && now.isBefore(timeout);
     }
 }
