@@ -1,5 +1,6 @@
 package com.commerceplatform.api.accounts.controllers;
 
+import com.commerceplatform.api.accounts.dtos.RecoveryPasswordDto;
 import com.commerceplatform.api.accounts.dtos.redis.UserRecoveryCodeDto;
 import com.commerceplatform.api.accounts.services.RecoveryPasswordService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class RecoveryPassword {
     @PostMapping("/email")
     public ResponseEntity<Void> sendRecoveryCode(@RequestBody UserRecoveryCodeDto request) {
         recoveryPasswordService.sendRecoveryCode(request.email());
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
     @GetMapping("/pin")
@@ -28,5 +29,11 @@ public class RecoveryPassword {
             @RequestParam("email") String email
         ) {
         return ResponseEntity.status(HttpStatus.OK).body(recoveryPasswordService.recoveryCodeIsValid(code, email));
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<Void> updatePasswordByRecoveryCode(@RequestBody RecoveryPasswordDto request) {
+        recoveryPasswordService.updatePasswordByRecoveryCode(request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }

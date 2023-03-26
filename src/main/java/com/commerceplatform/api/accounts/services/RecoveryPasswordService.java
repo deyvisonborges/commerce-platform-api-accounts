@@ -1,6 +1,7 @@
 package com.commerceplatform.api.accounts.services;
 
 import com.commerceplatform.api.accounts.dtos.RecoveryPasswordDto;
+import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.exceptions.NotFoundException;
 import com.commerceplatform.api.accounts.models.redis.RecoveryPasswordModel;
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
@@ -78,6 +79,8 @@ public class RecoveryPasswordService implements RecoveryPasswordRules {
 
            user.setPassword(passwordEncoder.encode(user.getPassword()));
            userRepository.save(user);
+           return;
         }
+        throw new BadRequestException("Invalid params");
     }
 }
