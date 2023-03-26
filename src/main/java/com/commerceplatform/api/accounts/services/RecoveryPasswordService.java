@@ -44,4 +44,19 @@ public class RecoveryPasswordService implements RecoveryPasswordRules {
 
         recoveryPasswordRepository.save(recoveryPasswordModel);
     }
+
+    @Override
+    public boolean recoveryCodeIsValid(String code, String email) {
+        var userRecoveryCodeOpt = recoveryPasswordRepository.findByEmail(email);
+
+        if(userRecoveryCodeOpt.isEmpty()) {
+            throw new NotFoundException("User not found");
+        }
+
+        var userRecoveryCode = userRecoveryCodeOpt.get();
+
+        if (code.equals(userRecoveryCode.getCode())) return true;
+
+        return false;
+    }
 }
