@@ -5,5 +5,4 @@ import com.commerceplatform.api.accounts.models.jpa.UserModel;
 
 public interface UserServiceRules {
     UserModel create (UserDTO userDTO);
-    Object sendRecoveryCode (Object email);
 }

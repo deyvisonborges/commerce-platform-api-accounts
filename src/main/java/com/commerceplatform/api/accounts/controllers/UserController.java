@@ -21,11 +21,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(userDTO));
     }
 
-    @PostMapping("/recovery-code")
-    public ResponseEntity<?> sendRecoveryCode(@RequestBody Object email) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.sendRecoveryCode("email@gmail.com"));
-    }
-
     @GetMapping
     public String teste() {
         return "teste";

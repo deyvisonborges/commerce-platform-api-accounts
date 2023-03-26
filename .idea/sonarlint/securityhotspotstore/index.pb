@@ -23,8 +23,6 @@ Lsrc/main/java/com/commerceplatform/api/accounts/dtos/mappers/UserMapper.java,b
 Ssrc/main/java/com/commerceplatform/api/accounts/services/rules/JwtServiceRules.java,4/1/4112c174a68817ca609d8e83de47ea51c08a8fd2
 x
 Hsrc/main/java/com/commerceplatform/api/accounts/security/JwtService.java,f/3/f34fad525f519e57e9f875d7c5aabe995c88387d
-Ñ
-Tsrc/main/java/com/commerceplatform/api/accounts/repositories/UserTypeRepository.java,f/5/f5727f87e9435e9df85862ae374798230b64530d
 u
 Esrc/main/java/com/commerceplatform/api/accounts/utils/Validators.java,2/4/243d8e2616002f0075076f78d5f36ad1887e1b38
 }
@@ -33,3 +31,15 @@ Msrc/main/java/com/commerceplatform/api/accounts/services/UserTypeService.java,
 Ksrc/main/java/com/commerceplatform/api/accounts/utils/GenericValidator.java,f/b/fb4dbb309f38bcb68818d2ce20b98b007ec3ad7b
 y
 Isrc/main/java/com/commerceplatform/api/accounts/models/jpa/UserModel.java,c/1/c19b31c7f3228e6733f9e70a5ba606a609083ee8
+y
+Isrc/main/java/com/commerceplatform/api/accounts/models/jpa/RoleModel.java,5/4/54a08e98dd4244efac440778e5fb70e3a7dbb12c
+Ñ
+Tsrc/main/java/com/commerceplatform/api/accounts/repositories/jpa/UserRepository.java,b/5/b551041779f96ee303a840696ef96b907da8f89d
+Å
+Qsrc/main/java/com/commerceplatform/api/accounts/services/rules/UserTypeRules.java,6/7/677cdbc702c12dc1eb70418b16ad7261a506ad01
+}
+Msrc/test/java/com/commerceplatform/api/accounts/AccountsApplicationTests.java,a/f/af9c9c9bd20dedfe6cb14bdc8390efe080fcd057
+x
+Hsrc/main/java/com/commerceplatform/api/accounts/AccountsApplication.java,4/1/41ce0ce5ff3896f040ec62fa190af2f620672dc8
+É
+Ssrc/main/java/com/commerceplatform/api/accounts/controllers/UserTypeController.java,b/2/b24c82bdc0aed62daf8f866c2d7b54c78b6eca2e

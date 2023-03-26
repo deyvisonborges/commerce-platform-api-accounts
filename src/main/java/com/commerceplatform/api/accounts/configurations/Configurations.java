@@ -54,8 +54,8 @@ public class Configurations {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic().and().authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+            .requestMatchers("/recovery-password/*").permitAll()
             .requestMatchers(HttpMethod.POST, "/user").permitAll()
-            .requestMatchers(HttpMethod.POST, "/user/recovery-code").permitAll()
             .requestMatchers(HttpMethod.GET, "/user-type").permitAll()
             .anyRequest().authenticated().and()
             .csrf().disable()
