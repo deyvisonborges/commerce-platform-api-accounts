@@ -1,11 +1,13 @@
 package com.commerceplatform.api.accounts.services;
 
+import com.commerceplatform.api.accounts.dtos.RecoveryPasswordDto;
 import com.commerceplatform.api.accounts.exceptions.NotFoundException;
 import com.commerceplatform.api.accounts.models.redis.RecoveryPasswordModel;
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.repositories.redis.RecoveryPasswordRepository;
 import com.commerceplatform.api.accounts.services.rules.RecoveryPasswordRules;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,10 +19,12 @@ public class RecoveryPasswordService implements RecoveryPasswordRules {
     private String recoveryPasswordTimeout;
 
 
+    private final PasswordEncoder passwordEncoder;
     private final RecoveryPasswordRepository recoveryPasswordRepository;
     private final UserRepository userRepository;
 
-    public RecoveryPasswordService(RecoveryPasswordRepository recoveryPasswordRepository, UserRepository userRepository) {
+    public RecoveryPasswordService(PasswordEncoder passwordEncoder, RecoveryPasswordRepository recoveryPasswordRepository, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.recoveryPasswordRepository = recoveryPasswordRepository;
         this.userRepository = userRepository;
     }
@@ -64,5 +68,16 @@ public class RecoveryPasswordService implements RecoveryPasswordRules {
         LocalDateTime now = LocalDateTime.now();
 
         return code.equals(userRecoveryCode.getCode()) && now.isBefore(timeout);
+    }
+
+    @Override
+    public void updatePasswordByRecoveryCode(RecoveryPasswordDto dto) {
+        if(recoveryCodeIsValid(dto.code(), dto.email())) {
+           var userOpt = userRepository.findByEmail(dto.email());
+           var user = userOpt.get();
+
+           user.setPassword(passwordEncoder.encode(user.getPassword()));
+           userRepository.save(user);
+        }
     }
 }
