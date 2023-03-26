@@ -1,6 +1,6 @@
 package com.commerceplatform.api.accounts.controllers;
 
-import com.commerceplatform.api.accounts.models.UserTypeModel;
+import com.commerceplatform.api.accounts.models.jpa.UserTypeModel;
 import com.commerceplatform.api.accounts.services.UserTypeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

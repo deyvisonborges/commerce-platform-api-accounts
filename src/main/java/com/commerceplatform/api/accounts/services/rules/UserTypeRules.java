@@ -1,6 +1,6 @@
 package com.commerceplatform.api.accounts.services.rules;
 
-import com.commerceplatform.api.accounts.models.UserTypeModel;
+import com.commerceplatform.api.accounts.models.jpa.UserTypeModel;
 
 import java.util.List;
 

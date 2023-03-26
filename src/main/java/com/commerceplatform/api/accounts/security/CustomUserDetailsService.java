@@ -1,7 +1,7 @@
 package com.commerceplatform.api.accounts.security;
 
 import com.commerceplatform.api.accounts.exceptions.NotFoundException;
-import com.commerceplatform.api.accounts.repositories.UserRepository;
+import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

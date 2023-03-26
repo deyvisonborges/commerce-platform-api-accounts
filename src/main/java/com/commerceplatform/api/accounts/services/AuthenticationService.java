@@ -3,7 +3,7 @@ package com.commerceplatform.api.accounts.services;
 import com.commerceplatform.api.accounts.dtos.LoginDTO;
 import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.exceptions.NotFoundException;
-import com.commerceplatform.api.accounts.repositories.UserRepository;
+import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;
 import com.commerceplatform.api.accounts.utils.Validators;
 import org.springframework.security.authentication.AuthenticationManager;

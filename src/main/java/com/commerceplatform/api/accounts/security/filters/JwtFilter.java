@@ -1,6 +1,6 @@
 package com.commerceplatform.api.accounts.security.filters;
 
-import com.commerceplatform.api.accounts.repositories.UserRepository;
+import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

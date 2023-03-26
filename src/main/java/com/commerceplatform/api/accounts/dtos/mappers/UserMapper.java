@@ -1,8 +1,8 @@
 package com.commerceplatform.api.accounts.dtos.mappers;
 
 import com.commerceplatform.api.accounts.dtos.UserDTO;
-import com.commerceplatform.api.accounts.models.UserModel;
-import com.commerceplatform.api.accounts.models.UserTypeModel;
+import com.commerceplatform.api.accounts.models.jpa.UserModel;
+import com.commerceplatform.api.accounts.models.jpa.UserTypeModel;
 
 public class UserMapper {
     private UserMapper() {

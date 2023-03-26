@@ -1,7 +1,7 @@
 package com.commerceplatform.api.accounts.services;
 
-import com.commerceplatform.api.accounts.models.UserTypeModel;
-import com.commerceplatform.api.accounts.repositories.UserTypeRepository;
+import com.commerceplatform.api.accounts.models.jpa.UserTypeModel;
+import com.commerceplatform.api.accounts.repositories.jpa.UserTypeRepository;
 import com.commerceplatform.api.accounts.services.rules.UserTypeRules;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

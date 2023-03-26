@@ -1,6 +1,6 @@
 package com.commerceplatform.api.accounts.configurations;
 
-import com.commerceplatform.api.accounts.repositories.UserRepository;
+import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.security.CustomUserDetailsService;
 import com.commerceplatform.api.accounts.security.JwtService;
 import com.commerceplatform.api.accounts.security.filters.JwtFilter;
@@ -55,6 +55,7 @@ public class Configurations {
         http.httpBasic().and().authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/user").permitAll()
+            .requestMatchers(HttpMethod.POST, "/user/recovery-code").permitAll()
             .requestMatchers(HttpMethod.GET, "/user-type").permitAll()
             .anyRequest().authenticated().and()
             .csrf().disable()
