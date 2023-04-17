@@ -1,6 +1,7 @@
 package com.commerceplatform.api.accounts.utils;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
@@ -12,41 +13,35 @@ import java.util.regex.Pattern;
 
 @Component
 public class Validators {
-
-    public static Map<String, List<String>> errors = new HashMap<>();
+    public  Map<String, List<String>> errors = new HashMap<>();
 //    private final List<String> errors;
 
-    public Validators() {
-        throw new IllegalStateException("Você não pode instanciar essa classe de utilitário");
-    }
-
-
-    public static void addError(String attribute, String message) {
+    public  void addError(String attribute, String message) {
         if(!errors.containsKey(attribute)) {
             errors.put(attribute, new ArrayList<>());
         }
         errors.get(attribute).add(message);
     }
 
-    public static void min(String attribute, String value, Integer length, String message) {
+    public  void min(String attribute, String value, Integer length, String message) {
         if(value.length() < length) {
             addError(attribute, message);
         }
     }
 
-    public static void max(String attribute, String value, Integer length, String message) {
+    public  void max(String attribute, String value, Integer length, String message) {
         if(value.length() > length) {
             addError(attribute, message);
         }
     }
 
-    public static void isRequired(String attribute, String value, String message) {
-        if(value.isEmpty() || value.length() <= 0) {
+    public  void isRequired(String attribute, String value, String message) {
+        if(value == null || value.length() <= 0) {
             addError(attribute, message);
         }
     }
 
-    public static boolean isValidEmail(String email) {
+    public  boolean isValidEmail(String email) {
         final String pattern = "^(.+)@(\\S+)$";
 
         return Pattern.compile(pattern)
@@ -54,15 +49,15 @@ public class Validators {
             .matches();
     }
 
-    public static Boolean validate() {
+    public  Boolean validate() {
         return errors.isEmpty();
     }
 
-    public static List<String> getErrorsByAttribute(String attribute) {
+    public  List<String> getErrorsByAttribute(String attribute) {
         return errors.getOrDefault(attribute, new ArrayList<>());
     }
 
-    public static Map<String, List<String>> getAllErrors() {
+    public  Map<String, List<String>> getAllErrors() {
         return errors;
     }
 }

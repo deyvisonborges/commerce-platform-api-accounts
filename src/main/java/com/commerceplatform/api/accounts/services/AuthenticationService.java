@@ -15,27 +15,29 @@ import com.commerceplatform.api.accounts.security.JwtService;
 
 @Service
 @Transactional
-public class AuthenticationService implements AuthenticationServiceRules  {
+public class AuthenticationService extends Validators implements AuthenticationServiceRules  {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
     public AuthenticationService(AuthenticationManager authenticationManager, JwtService jwtService, UserRepository userRepository) {
+        super();
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
+
     }
 
     public String login(LoginDTO request) {
-        Validators.isRequired("email", request.email(), "attribute email is required");
-        Validators.isRequired("email", request.email(), "attribute email is required");
+        super.isRequired("email", request.email(), "attribute email is required");
+        super.isRequired("email", request.email(), "attribute email is required");
 
-        if(!Validators.validate()) {
-            throw new ValidationException(Validators.getAllErrors());
+        if(!super.validate()) {
+            throw new ValidationException(super.getAllErrors());
         }
 
-        if (!Validators.isValidEmail(request.email())) {
+        if (!super.isValidEmail(request.email())) {
             throw new BadRequestException("Attribute 'email' is not valid");
         }
 
