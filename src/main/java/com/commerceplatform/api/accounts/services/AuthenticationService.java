@@ -3,6 +3,7 @@ package com.commerceplatform.api.accounts.services;
 import com.commerceplatform.api.accounts.dtos.LoginDTO;
 import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.exceptions.NotFoundException;
+import com.commerceplatform.api.accounts.exceptions.ValidationException;
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;
 import com.commerceplatform.api.accounts.utils.Validators;
@@ -14,7 +15,7 @@ import com.commerceplatform.api.accounts.security.JwtService;
 
 @Service
 @Transactional
-public class AuthenticationService implements AuthenticationServiceRules {
+public class AuthenticationService implements AuthenticationServiceRules  {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
@@ -27,6 +28,13 @@ public class AuthenticationService implements AuthenticationServiceRules {
     }
 
     public String login(LoginDTO request) {
+        Validators.isRequired("email", request.email(), "attribute email is required");
+        Validators.isRequired("email", request.email(), "attribute email is required");
+
+        if(!Validators.validate()) {
+            throw new ValidationException(Validators.getAllErrors());
+        }
+
         if (!Validators.isValidEmail(request.email())) {
             throw new BadRequestException("Attribute 'email' is not valid");
         }

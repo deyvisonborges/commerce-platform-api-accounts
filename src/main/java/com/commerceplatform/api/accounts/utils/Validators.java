@@ -1,24 +1,48 @@
 package com.commerceplatform.api.accounts.utils;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
+@Component
 public class Validators {
 
-    private final List<String> errors;
+    public static Map<String, List<String>> errors = new HashMap<>();
+//    private final List<String> errors;
 
-    private Validators() {
+    public Validators() {
         throw new IllegalStateException("Você não pode instanciar essa classe de utilitário");
     }
 
 
-    private void addError(String message) {
-        errors.add(message);
+    public static void addError(String attribute, String message) {
+        if(!errors.containsKey(attribute)) {
+            errors.put(attribute, new ArrayList<>());
+        }
+        errors.get(attribute).add(message);
     }
 
-    protected void hasMinLen(String value, Integer length, String message) {
+    public static void min(String attribute, String value, Integer length, String message) {
         if(value.length() < length) {
-            addError(message);
+            addError(attribute, message);
+        }
+    }
+
+    public static void max(String attribute, String value, Integer length, String message) {
+        if(value.length() > length) {
+            addError(attribute, message);
+        }
+    }
+
+    public static void isRequired(String attribute, String value, String message) {
+        if(value.isEmpty() || value.length() <= 0) {
+            addError(attribute, message);
         }
     }
 
@@ -30,12 +54,15 @@ public class Validators {
             .matches();
     }
 
-    protected Boolean validate() {
+    public static Boolean validate() {
         return errors.isEmpty();
     }
 
+    public static List<String> getErrorsByAttribute(String attribute) {
+        return errors.getOrDefault(attribute, new ArrayList<>());
+    }
 
-    protected List<String> getErrors() {
-        return this.errors;
+    public static Map<String, List<String>> getAllErrors() {
+        return errors;
     }
 }
