@@ -25,7 +25,11 @@ public class Configurations {
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
-    public Configurations(CustomUserDetailsService customUserDetailsService, JwtService jwtService, UserRepository userRepository) {
+    public Configurations(
+            CustomUserDetailsService customUserDetailsService,
+            JwtService jwtService,
+            UserRepository userRepository
+    ) {
         this.customUserDetailsService = customUserDetailsService;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
@@ -55,7 +59,10 @@ public class Configurations {
         http.httpBasic().and().authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers("/recovery-password/*").permitAll()
+            .requestMatchers(HttpMethod.POST, "/role").permitAll()
+            .requestMatchers(HttpMethod.GET, "/role").permitAll()
             .requestMatchers(HttpMethod.POST, "/user").permitAll()
+            .requestMatchers(HttpMethod.GET, "/user").permitAll()
             .requestMatchers(HttpMethod.GET, "/user-type").permitAll()
             .anyRequest().authenticated().and()
             .csrf().disable()

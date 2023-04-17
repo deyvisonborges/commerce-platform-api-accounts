@@ -36,14 +36,10 @@ public class JwtService {
     }
 
     public String getSubject(String token) {
-        try {
-            return JWT.require(Algorithm.HMAC256(secret))
-                .withIssuer(this.issuer)
-                .build()
-                .verify(token)
-                .getSubject();
-        } catch (Exception e) {
-            throw new BadRequestException("Failed to get subject: "+e.getMessage());
-        }
+        return JWT.require(Algorithm.HMAC256(secret))
+            .withIssuer(this.issuer)
+            .build()
+            .verify(token)
+            .getSubject();
     }
 }

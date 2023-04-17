@@ -1,11 +1,14 @@
 package com.commerceplatform.api.accounts.controllers;
 
+import com.commerceplatform.api.accounts.controllers.outputs.CreateUserOutput;
 import com.commerceplatform.api.accounts.dtos.UserDTO;
 import com.commerceplatform.api.accounts.models.jpa.UserModel;
 import com.commerceplatform.api.accounts.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -16,13 +19,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<UserModel>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
+    }
+
     @PostMapping
     public ResponseEntity<UserModel> create(@RequestBody UserDTO userDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(userDTO));
-    }
-
-    @GetMapping
-    public String teste() {
-        return "teste";
     }
 }

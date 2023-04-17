@@ -1,11 +1,13 @@
 package com.commerceplatform.api.accounts.security.filters;
 
+import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,17 +40,21 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private void authenticateByToken(String token) {
-        var subject = this.jwtService.getSubject(token);
-        var user = userRepository.findByEmail(subject);
+        try {
+            var subject = this.jwtService.getSubject(token);
+            var user = userRepository.findByEmail(subject);
 
-        SecurityContextHolder
-            .getContext()
-            .setAuthentication(new UsernamePasswordAuthenticationToken(
-                user,
-                null,
-                user.get().getAuthorities()
-            )
-        );
+            SecurityContextHolder
+                    .getContext()
+                    .setAuthentication(new UsernamePasswordAuthenticationToken(
+                                    user,
+                                    null,
+                                    user.get().getRoles()
+                            )
+                    );
+        } catch(Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     private String getHeaderToken(HttpServletRequest request) {

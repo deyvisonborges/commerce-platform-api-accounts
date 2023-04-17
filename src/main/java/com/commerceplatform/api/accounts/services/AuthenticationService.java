@@ -6,12 +6,14 @@ import com.commerceplatform.api.accounts.exceptions.NotFoundException;
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;
 import com.commerceplatform.api.accounts.utils.Validators;
+import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import com.commerceplatform.api.accounts.security.JwtService;
 
 @Service
+@Transactional
 public class AuthenticationService implements AuthenticationServiceRules {
 
     private final AuthenticationManager authenticationManager;

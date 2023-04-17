@@ -3,11 +3,11 @@ package com.commerceplatform.api.accounts.models.jpa;
 import jakarta.persistence.*;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
@@ -26,11 +26,7 @@ public class UserModel implements UserDetails {
     @Column(name = "updated_at")
     private LocalDate updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    private UserTypeModel userType;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "users_roles",
         uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id" }),
@@ -42,14 +38,13 @@ public class UserModel implements UserDetails {
     public UserModel() {
     }
 
-    public UserModel(Long id, String email, String username, String password, LocalDate createdAt, LocalDate updatedAt, UserTypeModel userTypeModel, List<RoleModel> roles) {
+    public UserModel(Long id, String email, String username, String password, LocalDate createdAt, LocalDate updatedAt, List<RoleModel> roles) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.userType = userTypeModel;
         this.roles = roles;
     }
 
@@ -103,17 +98,21 @@ public class UserModel implements UserDetails {
         this.updatedAt = updatedAt;
     }
 
-    public UserTypeModel getUserTypeModel() {
-        return userType;
+    public List<RoleModel> getRoles() {
+        return roles;
     }
 
-    public void setUserTypeModel(UserTypeModel userTypeModel) {
-        this.userType = userTypeModel;
+    public void setRoles(List<RoleModel> roles) {
+        this.roles = roles;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (RoleModel role : roles) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toString()));
+        }
+        return authorities;
     }
 
     @Override

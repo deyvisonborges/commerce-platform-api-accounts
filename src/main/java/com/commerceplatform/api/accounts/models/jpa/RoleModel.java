@@ -1,46 +1,43 @@
 package com.commerceplatform.api.accounts.models.jpa;
 
-import com.commerceplatform.api.accounts.enums.RoleEnum;
 import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.Builder;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 @Table(name = "role")
-public class RoleModel implements GrantedAuthority, Serializable {
+@Builder
+public class RoleModel implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id", nullable = false)
-    private UUID id;
-
-    @Enumerated(EnumType.STRING)
-    private RoleEnum name;
+    private Long id;
+    private String name;
     private String description;
 
     public RoleModel() {
     }
 
-    public RoleModel(UUID id, RoleEnum name, String description) {
+    public RoleModel(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public RoleEnum getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(RoleEnum name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -50,10 +47,5 @@ public class RoleModel implements GrantedAuthority, Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public String getAuthority() {
-        return this.name.toString();
     }
 }
