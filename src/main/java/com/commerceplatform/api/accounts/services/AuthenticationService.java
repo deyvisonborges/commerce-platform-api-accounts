@@ -4,6 +4,7 @@ import com.commerceplatform.api.accounts.dtos.LoginDTO;
 import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.exceptions.NotFoundException;
 import com.commerceplatform.api.accounts.exceptions.ValidationException;
+import com.commerceplatform.api.accounts.outputs.LoginOutput;
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;
 import com.commerceplatform.api.accounts.utils.Validators;
@@ -29,11 +30,11 @@ public class AuthenticationService extends Validators implements AuthenticationS
 
     }
 
-    public String login(LoginDTO request) {
+    public LoginOutput login(LoginDTO request) {
         super.isRequired("email", request.email(), "attribute email is required");
         super.isRequired("email", request.email(), "attribute email is required");
 
-        if(!super.validate()) {
+        if(Boolean.FALSE.equals(super.validate())) {
             throw new ValidationException(super.getAllErrors());
         }
 
@@ -51,7 +52,11 @@ public class AuthenticationService extends Validators implements AuthenticationS
         var user = userRepository.findByEmail(request.email())
             .orElseThrow(() -> new NotFoundException("User with email not found"));
 
-        return jwtService.generateToken(auth, user.getId());
+        var token = jwtService.generateToken(auth, user.getId());
+
+        return LoginOutput.builder()
+            .accessToken(token)
+            .build();
     }
 
 

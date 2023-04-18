@@ -1,4 +1,4 @@
-package com.commerceplatform.api.accounts.controllers.outputs;
+package com.commerceplatform.api.accounts.outputs;
 
 import com.commerceplatform.api.accounts.models.jpa.RoleModel;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,5 @@
 package com.commerceplatform.api.accounts.controllers;
 
-import com.commerceplatform.api.accounts.controllers.outputs.CreateUserOutput;
 import com.commerceplatform.api.accounts.dtos.UserDTO;
 import com.commerceplatform.api.accounts.models.jpa.UserModel;
 import com.commerceplatform.api.accounts.services.UserService;

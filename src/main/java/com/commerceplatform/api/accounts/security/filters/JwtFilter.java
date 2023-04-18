@@ -45,13 +45,13 @@ public class JwtFilter extends OncePerRequestFilter {
             var user = userRepository.findByEmail(subject);
 
             SecurityContextHolder
-                    .getContext()
-                    .setAuthentication(new UsernamePasswordAuthenticationToken(
-                                    user,
-                                    null,
-                                    user.get().getAuthorities()
-                            )
-                    );
+                .getContext()
+                .setAuthentication(new UsernamePasswordAuthenticationToken(
+                        user,
+                        null,
+                        user.get().getAuthorities()
+                    )
+                );
         } catch(Exception e) {
             throw new BadRequestException(e.getMessage());
         }
