@@ -4,6 +4,7 @@ import com.commerceplatform.api.accounts.dtos.ErrorResponseDto;
 import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.exceptions.NotFoundException;
 import com.commerceplatform.api.accounts.exceptions.UnauthorizedException;
+import com.commerceplatform.api.accounts.exceptions.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,6 +75,18 @@ public class ResourceHandler {
                 .message(d.getMessage())
                 .httpStatus(HttpStatus.UNAUTHORIZED)
                 .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .build()
+        );
+    }
+
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<?> unauthorizedException(ValidationException d) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto
+                .builder()
+                .message(d.getMessage())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .statusCode(HttpStatus.BAD_REQUEST.value())
                 .build()
         );
     }

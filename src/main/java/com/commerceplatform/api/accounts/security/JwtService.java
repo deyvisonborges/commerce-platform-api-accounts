@@ -17,33 +17,34 @@ public class JwtService {
 
     private final String issuer = "Commerce Platform Accounts";
 
-    public String generateToken(Authentication authentication, Long userId) {
-        try {
-            return JWT.create()
-                .withIssuer(this.issuer)
-                .withSubject(authentication.getName())
-                .withClaim("id", userId)
-                .withExpiresAt(
-                    LocalDateTime.now()
-                        .plusMinutes(10)
-                        .toInstant(ZoneOffset.of("-03:00")
+    public String generateToken(Authentication authentication, Long userId) throws BadRequestException {
+        return JWT.create()
+            .withIssuer(this.issuer)
+            .withSubject(authentication.getName())
+            .withClaim("id", userId)
+            .withExpiresAt(
+                LocalDateTime.now()
+                    .plusMinutes(10)
+                    .toInstant(ZoneOffset.of("-03:00")
                     )
-                )
-                .sign(Algorithm.HMAC256(secret));
-        } catch (Exception e) {
-            throw new BadRequestException("Token error: "+e.getMessage());
-        }
+            )
+            .sign(Algorithm.HMAC256(secret));
     }
 
-    public String getSubject(String token) {
-        try {
-            return JWT.require(Algorithm.HMAC256(secret))
-                .withIssuer(this.issuer)
-                .build()
-                .verify(token)
-                .getSubject();
-        } catch (Exception e) {
-            throw new BadRequestException("Failed to get subject: "+e.getMessage());
-        }
+    public LocalDateTime getExpirationDate(String token) throws BadRequestException {
+        var jwt = JWT.require(Algorithm.HMAC256(secret))
+            .withIssuer(this.issuer)
+            .build()
+            .verify(token);
+
+        return jwt.getExpiresAt().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
+    }
+
+    public String getSubject(String token) throws BadRequestException {
+        return JWT.require(Algorithm.HMAC256(secret))
+            .withIssuer(this.issuer)
+            .build()
+            .verify(token)
+            .getSubject();
     }
 }
