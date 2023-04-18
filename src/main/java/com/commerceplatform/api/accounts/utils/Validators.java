@@ -19,13 +19,13 @@ public class Validators {
         errors.get(attribute).add(message);
     }
 
-    public void min(String attribute, String value, Integer length, String message) {
+    public void hasMin(String attribute, String value, Integer length, String message) {
         if(value.length() < length) {
             addError(attribute, message);
         }
     }
 
-    public void max(String attribute, String value, Integer length, String message) {
+    public void hasMax(String attribute, String value, Integer length, String message) {
         if(value.length() > length) {
             addError(attribute, message);
         }
@@ -55,5 +55,9 @@ public class Validators {
 
     public Map<String, List<String>> getAllErrors() {
         return errors;
+    }
+
+    public void clearErrors() {
+        errors.clear();
     }
 }

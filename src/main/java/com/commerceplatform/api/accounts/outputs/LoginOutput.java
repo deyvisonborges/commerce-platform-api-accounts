@@ -18,4 +18,7 @@ public class LoginOutput {
 
     @JsonProperty("refresh_token")
     private String refreshToken;
+
+    @JsonProperty("expires_at")
+    private String expiresAt;
 }

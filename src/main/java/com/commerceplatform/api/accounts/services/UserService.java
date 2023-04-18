@@ -4,6 +4,7 @@ import com.commerceplatform.api.accounts.dtos.UserDTO;
 import com.commerceplatform.api.accounts.dtos.mappers.UserMapper;
 import com.commerceplatform.api.accounts.enums.utils.RoleEnumUtil;
 import com.commerceplatform.api.accounts.exceptions.BadRequestException;
+import com.commerceplatform.api.accounts.exceptions.NotFoundException;
 import com.commerceplatform.api.accounts.models.jpa.RoleModel;
 import com.commerceplatform.api.accounts.models.jpa.UserModel;
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
@@ -60,5 +61,10 @@ public class UserService {
 
     public List<UserModel> findAll() {
         return this.userRepository.findAll();
+    }
+
+    public UserModel findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User with email not found"));
     }
 }

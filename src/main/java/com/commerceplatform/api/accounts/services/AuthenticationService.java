@@ -5,7 +5,6 @@ import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.exceptions.NotFoundException;
 import com.commerceplatform.api.accounts.exceptions.ValidationException;
 import com.commerceplatform.api.accounts.outputs.LoginOutput;
-import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;
 import com.commerceplatform.api.accounts.utils.Validators;
 import jakarta.transaction.Transactional;
@@ -14,28 +13,35 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import com.commerceplatform.api.accounts.security.JwtService;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 @Transactional
 public class AuthenticationService extends Validators implements AuthenticationServiceRules  {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public AuthenticationService(AuthenticationManager authenticationManager, JwtService jwtService, UserRepository userRepository) {
+    public AuthenticationService(AuthenticationManager authenticationManager, JwtService jwtService, UserService userService) {
         super();
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
-        this.userRepository = userRepository;
-
+        this.userService = userService;
     }
 
     public LoginOutput login(LoginDTO request) {
+
         super.isRequired("email", request.email(), "attribute email is required");
-        super.isRequired("email", request.email(), "attribute email is required");
+        super.isRequired("password", request.password(), "attribute password is required");
+        super.hasMin("password", request.password(), 4, "minimum size must be 4");
 
         if(Boolean.FALSE.equals(super.validate())) {
-            throw new ValidationException(super.getAllErrors());
+            Map<String, List<String>> errors = new HashMap<>(super.getAllErrors());
+            super.clearErrors();
+            throw new ValidationException(errors);
         }
 
         if (!super.isValidEmail(request.email())) {
@@ -49,13 +55,13 @@ public class AuthenticationService extends Validators implements AuthenticationS
             )
         );
 
-        var user = userRepository.findByEmail(request.email())
-            .orElseThrow(() -> new NotFoundException("User with email not found"));
-
+        var user = userService.findByEmail(request.email());
         var token = jwtService.generateToken(auth, user.getId());
+        var expiresAt = jwtService.getExpirationDate(token);
 
         return LoginOutput.builder()
             .accessToken(token)
+            .expiresAt(expiresAt.toString())
             .build();
     }
 
