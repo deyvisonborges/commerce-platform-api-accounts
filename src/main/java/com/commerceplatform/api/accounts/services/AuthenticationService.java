@@ -2,7 +2,6 @@ package com.commerceplatform.api.accounts.services;
 
 import com.commerceplatform.api.accounts.dtos.LoginDTO;
 import com.commerceplatform.api.accounts.exceptions.BadRequestException;
-import com.commerceplatform.api.accounts.exceptions.NotFoundException;
 import com.commerceplatform.api.accounts.exceptions.ValidationException;
 import com.commerceplatform.api.accounts.outputs.LoginOutput;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;

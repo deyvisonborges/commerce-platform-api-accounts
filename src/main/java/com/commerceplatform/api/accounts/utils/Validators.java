@@ -1,14 +1,8 @@
 package com.commerceplatform.api.accounts.utils;
 
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
-@Component
 public class Validators {
     public final Map<String, List<String>> errors = new HashMap<>();
 
@@ -20,8 +14,10 @@ public class Validators {
     }
 
     public void hasMin(String attribute, String value, Integer length, String message) {
-        if(value.length() < length) {
-            addError(attribute, message);
+        if(value != null) {
+            if(value.length() < length) {
+                addError(attribute, message);
+            }
         }
     }
 
@@ -32,7 +28,7 @@ public class Validators {
     }
 
     public void isRequired(String attribute, String value, String message) {
-        if(value == null || value.length() <= 0) {
+        if(Objects.isNull(value) || value.isEmpty() || Objects.isNull(value.trim())) {
             addError(attribute, message);
         }
     }
@@ -43,6 +39,18 @@ public class Validators {
         return Pattern.compile(pattern)
             .matcher(email)
             .matches();
+    }
+
+    public void noNull(String attribute, Object value, String message) {
+        if (value == null) {
+            addError(attribute, message);
+        }
+    }
+
+    public void isNull(String attribute, Object value, String message) {
+        if (value != null) {
+            addError(attribute, message);
+        }
     }
 
     public Boolean validate() {
