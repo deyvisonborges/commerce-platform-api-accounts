@@ -1,4 +1,4 @@
-package com.commerceplatform.api.accounts.outputs;
+package com.commerceplatform.api.accounts.dtos;
 
 import com.commerceplatform.api.accounts.models.jpa.RoleModel;
 import lombok.AllArgsConstructor;
@@ -13,10 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateUserOutput {
+public class UserDto {
     private Long id;
     private String email;
     private String username;
+    private String password;
     private LocalDate createdAt;
     private LocalDate updatedAt;
     private List<RoleModel> roles;

@@ -5,17 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDTO {
+public class RoleDto {
     private Long id;
-    private String email;
-    private String username;
-    private String password;
-    private LocalDate createdAt = LocalDate.now();
-    private LocalDate updatedAt;
+    private String name;
+    private String description;
 }

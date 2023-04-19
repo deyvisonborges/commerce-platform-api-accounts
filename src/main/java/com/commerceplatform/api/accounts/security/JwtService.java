@@ -15,11 +15,11 @@ public class JwtService {
     @Value("${security.jwt.secret}")
     private String secret;
 
-    private final String issuer = "Commerce Platform Accounts";
+    private static final String ISSUER = "Commerce Platform Accounts";
 
     public String generateToken(Authentication authentication, Long userId) throws BadRequestException {
         return JWT.create()
-            .withIssuer(this.issuer)
+            .withIssuer(ISSUER)
             .withSubject(authentication.getName())
             .withClaim("id", userId)
             .withExpiresAt(
@@ -33,7 +33,7 @@ public class JwtService {
 
     public LocalDateTime getExpirationDate(String token) throws BadRequestException {
         var jwt = JWT.require(Algorithm.HMAC256(secret))
-            .withIssuer(this.issuer)
+            .withIssuer(ISSUER)
             .build()
             .verify(token);
 
@@ -42,7 +42,7 @@ public class JwtService {
 
     public String getSubject(String token) throws BadRequestException {
         return JWT.require(Algorithm.HMAC256(secret))
-            .withIssuer(this.issuer)
+            .withIssuer(ISSUER)
             .build()
             .verify(token)
             .getSubject();

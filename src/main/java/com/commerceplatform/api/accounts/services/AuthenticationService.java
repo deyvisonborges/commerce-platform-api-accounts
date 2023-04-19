@@ -1,9 +1,9 @@
 package com.commerceplatform.api.accounts.services;
 
-import com.commerceplatform.api.accounts.dtos.LoginDTO;
+import com.commerceplatform.api.accounts.dtos.inputs.LoginInput;
 import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.exceptions.ValidationException;
-import com.commerceplatform.api.accounts.outputs.LoginOutput;
+import com.commerceplatform.api.accounts.dtos.outputs.LoginOutput;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;
 import com.commerceplatform.api.accounts.utils.Validators;
 import jakarta.transaction.Transactional;
@@ -31,7 +31,7 @@ public class AuthenticationService extends Validators implements AuthenticationS
         this.userService = userService;
     }
 
-    public LoginOutput login(LoginDTO request) {
+    public LoginOutput login(LoginInput request) {
 
         super.isRequired("email", request.email(), "attribute email is required");
         super.isRequired("password", request.password(), "attribute password is required");
@@ -63,6 +63,4 @@ public class AuthenticationService extends Validators implements AuthenticationS
             .expiresAt(expiresAt.toString())
             .build();
     }
-
-
 }

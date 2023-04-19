@@ -14,10 +14,8 @@ public class Validators {
     }
 
     public void hasMin(String attribute, String value, Integer length, String message) {
-        if(value != null) {
-            if(value.length() < length) {
-                addError(attribute, message);
-            }
+        if(value != null && (value.length() < length)) {
+            addError(attribute, message);
         }
     }
 
@@ -28,7 +26,7 @@ public class Validators {
     }
 
     public void isRequired(String attribute, String value, String message) {
-        if(Objects.isNull(value) || value.isEmpty() || Objects.isNull(value.trim())) {
+        if(Objects.isNull(value) || value.isEmpty()) {
             addError(attribute, message);
         }
     }

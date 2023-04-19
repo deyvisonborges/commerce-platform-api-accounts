@@ -1,8 +1,7 @@
 package com.commerceplatform.api.accounts.services.rules;
 
-import com.commerceplatform.api.accounts.dtos.inputs.CreateRoleInput;
-import com.commerceplatform.api.accounts.models.jpa.RoleModel;
+import com.commerceplatform.api.accounts.dtos.RoleDto;
 
 public interface RoleServiceRules {
-    RoleModel create(CreateRoleInput input);
+    RoleDto create(RoleDto input);
 }

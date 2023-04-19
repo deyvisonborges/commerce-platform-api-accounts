@@ -19,7 +19,6 @@ public class RecoveryPasswordService implements RecoveryPasswordRules {
     @Value("${redis.recoverypassword.timeout}")
     private String recoveryPasswordTimeout;
 
-
     private final PasswordEncoder passwordEncoder;
     private final RecoveryPasswordRepository recoveryPasswordRepository;
     private final UserRepository userRepository;
@@ -72,13 +71,15 @@ public class RecoveryPasswordService implements RecoveryPasswordRules {
     }
 
     @Override
-    public void updatePasswordByRecoveryCode(RecoveryPasswordDto dto) {
-        if(recoveryCodeIsValid(dto.code(), dto.email())) {
-           var userOpt = userRepository.findByEmail(dto.email());
-           var user = userOpt.get();
+    public void updatePasswordByRecoveryCode(RecoveryPasswordDto input) {
+        if(recoveryCodeIsValid(input.getCode(), input.getEmail())) {
+           var userOpt = userRepository.findByEmail(input.getEmail())
+               .orElseThrow(
+                   () -> new NotFoundException("No user found with email " + input.getEmail())
+               );
 
-           user.setPassword(passwordEncoder.encode(user.getPassword()));
-           userRepository.save(user);
+            userOpt.setPassword(passwordEncoder.encode(userOpt.getPassword()));
+           userRepository.save(userOpt);
            return;
         }
         throw new BadRequestException("Invalid params");

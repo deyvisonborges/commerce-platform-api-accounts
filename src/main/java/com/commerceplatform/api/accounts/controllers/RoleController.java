@@ -1,11 +1,10 @@
 package com.commerceplatform.api.accounts.controllers;
 
-import com.commerceplatform.api.accounts.dtos.inputs.CreateRoleInput;
+import com.commerceplatform.api.accounts.dtos.RoleDto;
 import com.commerceplatform.api.accounts.models.jpa.RoleModel;
 import com.commerceplatform.api.accounts.services.RoleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<RoleModel> create(@RequestBody CreateRoleInput input) {
+    public ResponseEntity<RoleDto> create(@RequestBody RoleDto input) {
         return ResponseEntity.status(HttpStatus.OK).body(roleService.create(input));
     }
 

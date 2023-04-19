@@ -1,6 +1,6 @@
 package com.commerceplatform.api.accounts.controllers;
 
-import com.commerceplatform.api.accounts.dtos.UserDTO;
+import com.commerceplatform.api.accounts.dtos.UserDto;
 import com.commerceplatform.api.accounts.models.jpa.UserModel;
 import com.commerceplatform.api.accounts.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserModel> create(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(userDTO));
+    public ResponseEntity<UserDto> create(@RequestBody UserDto input) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(input));
     }
 }
