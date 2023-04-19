@@ -29,6 +29,7 @@ public class RecoveryPasswordService extends Validators implements RecoveryPassw
     private final UserRepository userRepository;
 
     public RecoveryPasswordService(PasswordEncoder passwordEncoder, RecoveryPasswordRepository recoveryPasswordRepository, UserRepository userRepository) {
+        super();
         this.passwordEncoder = passwordEncoder;
         this.recoveryPasswordRepository = recoveryPasswordRepository;
         this.userRepository = userRepository;
