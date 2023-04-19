@@ -12,4 +12,5 @@ public class ErrorResponseDto {
     private String message;
     private HttpStatus httpStatus;
     private Integer statusCode;
+    private String errors;
 }

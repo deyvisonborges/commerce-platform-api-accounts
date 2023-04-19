@@ -31,12 +31,18 @@ public class Validators {
         }
     }
 
-    public boolean isValidEmail(String email) {
+    public void isValidEmail(String attribute, String email, String message) {
         final String pattern = "^(.+)@(\\S+)$";
 
-        return Pattern.compile(pattern)
-            .matcher(email)
-            .matches();
+        if(email != null ) {
+            var isValid = Pattern.compile(pattern)
+                    .matcher(email)
+                    .matches();
+
+            if(!isValid) {
+                addError(attribute, message);
+            }
+        }
     }
 
     public void noNull(String attribute, Object value, String message) {

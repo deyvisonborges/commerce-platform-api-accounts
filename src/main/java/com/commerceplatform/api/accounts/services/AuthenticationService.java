@@ -1,7 +1,6 @@
 package com.commerceplatform.api.accounts.services;
 
 import com.commerceplatform.api.accounts.dtos.inputs.LoginInput;
-import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.exceptions.ValidationException;
 import com.commerceplatform.api.accounts.dtos.outputs.LoginOutput;
 import com.commerceplatform.api.accounts.services.rules.AuthenticationServiceRules;
@@ -31,11 +30,12 @@ public class AuthenticationService extends Validators implements AuthenticationS
         this.userService = userService;
     }
 
-    public LoginOutput login(LoginInput request) {
+    public LoginOutput login(LoginInput input) {
 
-        super.isRequired("email", request.email(), "attribute email is required");
-        super.isRequired("password", request.password(), "attribute password is required");
-        super.hasMin("password", request.password(), 4, "minimum size must be 4");
+        super.isRequired("email", input.email(), "attribute email is required");
+        super.isValidEmail("email", input.email(), "attribute email is not valid");
+        super.isRequired("password", input.password(), "attribute password is required");
+        super.hasMin("password", input.password(), 4, "minimum size must be 4");
 
         if(Boolean.FALSE.equals(super.validate())) {
             Map<String, List<String>> errors = new HashMap<>(super.getAllErrors());
@@ -43,18 +43,14 @@ public class AuthenticationService extends Validators implements AuthenticationS
             throw new ValidationException(errors);
         }
 
-        if (!super.isValidEmail(request.email())) {
-            throw new BadRequestException("Attribute 'email' is not valid");
-        }
-
         var auth = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                request.email(),
-                request.password()
+                input.email(),
+                input.password()
             )
         );
 
-        var user = userService.findByEmail(request.email());
+        var user = userService.findByEmail(input.email());
         var token = jwtService.generateToken(auth, user.getId());
         var expiresAt = jwtService.getExpirationDate(token);
 
