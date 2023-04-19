@@ -51,14 +51,14 @@ public class Validators {
         }
     }
 
-    public void noNull(String attribute, Object value, String message) {
-        if (value == null) {
+    public void nonNull(String attribute, Object value, String message) {
+        if (value != null) {
             addError(attribute, message);
         }
     }
 
     public void isNull(String attribute, Object value, String message) {
-        if (value != null) {
+        if (value == null) {
             addError(attribute, message);
         }
     }
