@@ -1,4 +1,4 @@
-package com.commerceplatform.api.accounts.security;
+package com.commerceplatform.api.accounts.services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -2,7 +2,7 @@ package com.commerceplatform.api.accounts.configurations;
 
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
 import com.commerceplatform.api.accounts.security.CustomUserDetailsService;
-import com.commerceplatform.api.accounts.security.JwtService;
+import com.commerceplatform.api.accounts.services.JwtService;
 import com.commerceplatform.api.accounts.security.filters.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

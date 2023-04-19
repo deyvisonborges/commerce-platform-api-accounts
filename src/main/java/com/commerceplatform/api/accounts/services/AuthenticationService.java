@@ -9,7 +9,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import com.commerceplatform.api.accounts.security.JwtService;
 
 import java.util.HashMap;
 import java.util.List;
