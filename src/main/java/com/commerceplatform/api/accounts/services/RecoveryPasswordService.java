@@ -110,16 +110,16 @@ public class RecoveryPasswordService extends Validators implements RecoveryPassw
             throw new ValidationException(errors);
         }
 
-        if(recoveryCodeIsValid(input.getCode(), input.getEmail())) {
-           var userOpt = userRepository.findByEmail(input.getEmail())
-               .orElseThrow(
-                   () -> new NotFoundException("No user found with email " + input.getEmail())
-               );
-
-            userOpt.setPassword(passwordEncoder.encode(userOpt.getPassword()));
-           userRepository.save(userOpt);
-           return;
+        if(Boolean.FALSE.equals(recoveryCodeIsValid(input.getCode(), input.getEmail()))) {
+            throw new BadRequestException("Expired recovery code");
         }
-        throw new BadRequestException("Invalid params");
+
+        var userOpt = userRepository.findByEmail(input.getEmail())
+            .orElseThrow(
+                () -> new NotFoundException("No user found with email " + input.getEmail())
+            );
+
+        userOpt.setPassword(passwordEncoder.encode(userOpt.getPassword()));
+        userRepository.save(userOpt);
     }
 }

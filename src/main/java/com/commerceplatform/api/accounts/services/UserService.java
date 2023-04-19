@@ -34,48 +34,44 @@ public class UserService extends Validators implements UserServiceRules {
 
     @Transactional
     @CacheEvict(value = "user", allEntries = true)
-    public UserDto create(UserDto input) {
-        try {
-            super.nonNull("id", input.getId(), "attribute id most be null");
-            super.isRequired("email", input.getEmail(), "attribute name is required");
-            super.isValidEmail("email", input.getEmail(), "attribute email is not valid");
-            super.isRequired("username", input.getUsername(), "attribute username is required");
-            super.isRequired("password", input.getPassword(), "attribute password is required");
-            super.hasMin("password", input.getPassword(), 8, "minimum size must be 8");
+    public UserDto create(UserDto input) throws BadRequestException{
+        super.nonNull("id", input.getId(), "attribute id most be null");
+        super.isRequired("email", input.getEmail(), "attribute name is required");
+        super.isValidEmail("email", input.getEmail(), "attribute email is not valid");
+        super.isRequired("username", input.getUsername(), "attribute username is required");
+        super.isRequired("password", input.getPassword(), "attribute password is required");
+        super.hasMin("password", input.getPassword(), 4, "minimum size must be 8");
 
-            if(Boolean.FALSE.equals(super.validate())) {
-                Map<String, List<String>> errors = new HashMap<>(super.getAllErrors());
-                super.clearErrors();
-                throw new ValidationException(errors);
-            }
-
-            var existsEmail = userRepository.findByEmail(input.getEmail());
-            if (existsEmail.isPresent())
-                throw new BadRequestException("Email already registered");
-
-            var newUser = UserMapper.mapper(input);
-            newUser.setPassword(passwordEncoder.encode(input.getPassword()));
-
-            var roles = new ArrayList<RoleModel>();
-            var defaultRole = new RoleModel(null, RoleEnum.USER.getName(), "Default user");
-
-            roles.add(defaultRole);
-            newUser.setRoles(roles);
-            newUser.setCreatedAt(LocalDate.now());
-
-            var result = userRepository.save(newUser);
-
-            return UserDto.builder()
-                .id(result.getId())
-                .email(result.getEmail())
-                .username(result.getUsername())
-                .createdAt(result.getCreatedAt())
-                .updatedAt(result.getUpdatedAt())
-                .roles(result.getRoles())
-                .build();
-        } catch (Exception e) {
-            throw new BadRequestException("Failed to create user: "+e.getMessage());
+        if(Boolean.FALSE.equals(super.validate())) {
+            Map<String, List<String>> errors = new HashMap<>(super.getAllErrors());
+            super.clearErrors();
+            throw new ValidationException(errors);
         }
+
+        var existsEmail = userRepository.findByEmail(input.getEmail());
+        if (existsEmail.isPresent())
+            throw new BadRequestException("Email already registered");
+
+        var newUser = UserMapper.mapper(input);
+        newUser.setPassword(passwordEncoder.encode(input.getPassword()));
+
+        var roles = new ArrayList<RoleModel>();
+        var defaultRole = new RoleModel(null, RoleEnum.USER.getName(), "Default user");
+
+        roles.add(defaultRole);
+        newUser.setRoles(roles);
+        newUser.setCreatedAt(LocalDate.now());
+
+        var result = userRepository.save(newUser);
+
+        return UserDto.builder()
+            .id(result.getId())
+            .email(result.getEmail())
+            .username(result.getUsername())
+            .createdAt(result.getCreatedAt())
+            .updatedAt(result.getUpdatedAt())
+            .roles(result.getRoles())
+            .build();
     }
 
     @Cacheable(value = "user")
