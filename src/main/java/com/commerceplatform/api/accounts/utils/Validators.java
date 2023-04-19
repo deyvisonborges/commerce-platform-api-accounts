@@ -25,6 +25,12 @@ public class Validators {
         }
     }
 
+    public void hasLength(String attribute, Integer length, String value, String message) {
+        if(value != null && (value.length() != length)) {
+            addError(attribute, message);
+        }
+    }
+
     public void isRequired(String attribute, String value, String message) {
         if(Objects.isNull(value) || value.isEmpty()) {
             addError(attribute, message);
