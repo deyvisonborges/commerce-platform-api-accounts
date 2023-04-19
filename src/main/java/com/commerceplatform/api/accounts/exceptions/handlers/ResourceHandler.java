@@ -48,7 +48,6 @@ public class ResourceHandler {
             messages.put(field, message);
         });
 
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto
                 .builder()
                 .message(Arrays.toString(messages.entrySet().toArray()))
@@ -79,16 +78,15 @@ public class ResourceHandler {
         );
     }
 
-
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<?> validationException(ValidationException d) {
+    public ResponseEntity<ErrorResponseDto> validationException(ValidationException d){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto
-                .builder()
-                .message("Validation errors")
-                .httpStatus(HttpStatus.BAD_REQUEST)
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .errors(d.getMessage())
-                .build()
+            .builder()
+            .message("Validation errors")
+            .httpStatus(HttpStatus.BAD_REQUEST)
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .errors(d.getErrors())
+            .build()
         );
     }
 
