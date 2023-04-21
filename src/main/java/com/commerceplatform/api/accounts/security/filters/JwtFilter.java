@@ -2,7 +2,7 @@ package com.commerceplatform.api.accounts.security.filters;
 
 import com.commerceplatform.api.accounts.exceptions.BadRequestException;
 import com.commerceplatform.api.accounts.repositories.jpa.UserRepository;
-import com.commerceplatform.api.accounts.security.JwtService;
+import com.commerceplatform.api.accounts.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
