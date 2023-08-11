@@ -25,7 +25,13 @@ public class Validators {
         }
     }
 
-    public void isRequired(String attribute, String value, String message) {
+    public void hasLength(String attribute, String value, Integer length) {
+        if(value != null && (value.length() < length)) {
+            addError(attribute, "attribute "+attribute+" must be "+length+" characters");
+        }
+    }
+
+    public void isRequired(String attribute, String message, String value) {
         if(Objects.isNull(value) || value.isEmpty()) {
             addError(attribute, message);
         }
@@ -45,7 +51,7 @@ public class Validators {
         }
     }
 
-    public void noNull(String attribute, Object value, String message) {
+    public void nonNull(String attribute, Object value, String message) {
         if (value == null) {
             addError(attribute, message);
         }
